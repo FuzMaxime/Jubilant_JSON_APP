@@ -46,9 +46,11 @@ class _LoginState extends State<LoginPage> {
         padding: const EdgeInsets.all(25.0),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 50.0,
             children: [
-              HeaderAuth(title: "Welcome back !"),
+              HeaderAuth(title: "Bienvenue !"),
               Column(
                 spacing: 25.0,
                 children: [

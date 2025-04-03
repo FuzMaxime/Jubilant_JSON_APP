@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:jubilant_json_app/core/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:jubilant_json_app/core/widgets/navbar_widget.dart';
 import 'package:jubilant_json_app/features/employees/models/employee_model.dart';
 import 'package:jubilant_json_app/features/employees/services/employee_service.dart';
 import 'package:jubilant_json_app/features/employees/widgets/employee_widget.dart';
@@ -55,26 +56,39 @@ class _EmployeePageState extends State<EmployeePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(200.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MainHeader(
+              title: "Employés",
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildLabel("Qui"),
+                  buildSearchField("Rechercher par nom", (value) {
+                    setState(() {
+                      nameFilter = value;
+                      filterEmployees();
+                    });
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MainHeader(
-                title: "Employés",
-              ),
-              const SizedBox(height: 30),
-              buildLabel("Qui"),
-              buildSearchField("Rechercher par nom", (value) {
-                setState(() {
-                  nameFilter = value;
-                  filterEmployees();
-                });
-              }),
-              const SizedBox(height: 20),
-
-              // Display the filtered Employees
+              // Afficher les employés filtrés
               Column(
                 children: filteredEmployees
                     .map((employee) => Padding(
@@ -87,6 +101,7 @@ class _EmployeePageState extends State<EmployeePage> {
           ),
         ),
       ),
+      bottomNavigationBar: NavbarWidget(),
     );
   }
 
