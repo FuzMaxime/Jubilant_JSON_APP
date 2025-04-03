@@ -58,8 +58,9 @@ Future<String?> getToken() async {
 
 //récupérer l'Id de l'utilisateur connecté
 Future<String?> getUserId() async {
+  return "0"; /*
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getString("user_id");
+  return prefs.getString("user_id");*/
 }
 
 //Supprime le token

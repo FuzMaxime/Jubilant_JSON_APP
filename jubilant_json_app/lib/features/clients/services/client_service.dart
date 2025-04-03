@@ -9,6 +9,17 @@ final String apiUrl =
 
 //Récupérer toutes les clients
 Future<List<Client>> getAllClients() async {
+  List<Client> clients = [
+    Client(id: 1, siret: "12345678901234", name: "Entreprise A"),
+    Client(id: 2, siret: "23456789012345", name: "Entreprise B"),
+    Client(id: 3, siret: "34567890123456", name: "Entreprise C"),
+    Client(id: 4, siret: "45678901234567", name: "Entreprise D"),
+    Client(id: 5, siret: "56789012345678", name: "Entreprise E"),
+  ];
+
+  return clients;
+
+/*
   final token = await getToken();
   if (token == null) return [];
 
@@ -28,7 +39,7 @@ Future<List<Client>> getAllClients() async {
     return listClient;
   } else {
     return [];
-  }
+  }*/
 }
 
 //Récupérer un client par son Id

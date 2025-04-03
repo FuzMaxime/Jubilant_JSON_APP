@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:jubilant_json_app/core/widgets/header_widget.dart';
 import 'package:jubilant_json_app/features/clients/models/client_model.dart';
 import 'package:jubilant_json_app/features/clients/services/client_service.dart';
 import 'package:flutter/material.dart';
+import 'package:jubilant_json_app/features/clients/widgets/client_widget.dart';
 import '../../../core/constants/color.dart';
 
 class ClientPage extends StatefulWidget {
@@ -16,9 +18,8 @@ class _ClientPageState extends State<ClientPage> {
   List<Client> allClients = [];
   List<Client> filteredClients = [];
 
-  String titleFilter = "";
-  String locationFilter = "";
-  String? _address;
+  String nameFilter = "";
+  String siretFilter = "";
 
   @override
   void initState() {
@@ -41,15 +42,15 @@ class _ClientPageState extends State<ClientPage> {
     }
   }
 
-  // Method to filter Clients based on title and location
+  // Method to filter Clients
   void filterClients() {
     setState(() {
       filteredClients = allClients.where((client) {
-        final matchesTitle =
-            client.name.toLowerCase().contains(titleFilter.toLowerCase());
-        final matchesLocation =
-            client.siret.toLowerCase().contains(locationFilter.toLowerCase());
-        return matchesTitle && matchesLocation;
+        final matchesName =
+            client.name.toLowerCase().contains(nameFilter.toLowerCase());
+        final matchesSiret =
+            client.siret.toLowerCase().contains(siretFilter.toLowerCase());
+        return matchesName && matchesSiret;
       }).toList();
     });
   }
@@ -63,11 +64,14 @@ class _ClientPageState extends State<ClientPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              MainHeader(
+                title: "Clients",
+              ),
               const SizedBox(height: 30),
               buildLabel("Qui"),
               buildSearchField("Rechercher le nom du client", (value) {
                 setState(() {
-                  titleFilter = value;
+                  nameFilter = value;
                   filterClients();
                 });
               }),
@@ -75,21 +79,21 @@ class _ClientPageState extends State<ClientPage> {
               buildLabel("Numéro SIRET"),
               buildSearchField("Rechercher le numéro SIRET", (value) {
                 setState(() {
-                  locationFilter = value;
+                  siretFilter = value;
                   filterClients();
                 });
               }),
               const SizedBox(height: 20),
 
               // Display the filtered Clients
-              /* Column(
+              Column(
                 children: filteredClients
-                    .map((annonce) => Padding(
+                    .map((client) => Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: AnnouncementDetails(announcement: annonce),
+                          child: ClientCard(client: client),
                         ))
                     .toList(),
-              ),*/
+              ),
             ],
           ),
         ),

@@ -2,7 +2,8 @@ import 'package:jubilant_json_app/features/auth/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jubilant_json_app/features/clients/pages/announcement_page.dart';
+import 'package:jubilant_json_app/features/clients/pages/client_page.dart';
+import 'package:jubilant_json_app/features/employees/pages/employee_page.dart';
 import 'core/constants/color.dart';
 //import 'core/widgets/generic_page_widget.dart';
 
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
-        '/home': (context) => ClientPage()
+        '/home': (context) => ClientPage(),
+        '/employees': (context) => EmployeePage(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -9,6 +9,56 @@ final String apiUrl =
 
 //Récupérer toutes les employees
 Future<List<Employee>> getAllEmployees() async {
+  List<Employee> employees = [
+    Employee(
+      id: 1,
+      client_id: 101,
+      first_name: "John",
+      last_name: "Doe",
+      birth_date: DateTime(1990, 5, 20),
+      expiry_date_CNI: DateTime(2030, 5, 20),
+      number_CNI: "1234567890",
+    ),
+    Employee(
+      id: 2,
+      client_id: 102,
+      first_name: "Jane",
+      last_name: "Smith",
+      birth_date: DateTime(1985, 7, 15),
+      expiry_date_CNI: DateTime(2028, 7, 15),
+      number_CNI: "2345678901",
+    ),
+    Employee(
+      id: 3,
+      client_id: 103,
+      first_name: "Michael",
+      last_name: "Brown",
+      birth_date: DateTime(1995, 3, 10),
+      expiry_date_CNI: DateTime(2032, 3, 10),
+      number_CNI: "3456789012",
+    ),
+    Employee(
+      id: 4,
+      client_id: 104,
+      first_name: "Emily",
+      last_name: "Davis",
+      birth_date: DateTime(1992, 11, 25),
+      expiry_date_CNI: DateTime(2031, 11, 25),
+      number_CNI: "4567890123",
+    ),
+    Employee(
+      id: 5,
+      client_id: 105,
+      first_name: "Chris",
+      last_name: "Miller",
+      birth_date: DateTime(2000, 2, 5),
+      expiry_date_CNI: DateTime(2035, 2, 5),
+      number_CNI: "5678901234",
+    ),
+  ];
+
+  return employees;
+/*
   final token = await getToken();
   if (token == null) return [];
 
@@ -50,5 +100,5 @@ Future<Employee?> getEmployeeById(int id) async {
     return employee;
   } else {
     return null;
-  }
+  }*/
 }

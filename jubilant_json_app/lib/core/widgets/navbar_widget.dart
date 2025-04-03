@@ -1,15 +1,13 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:jubilant_json_app/features/auth/services/auth_service.dart';
 import 'package:jubilant_json_app/features/auth/services/user_service.dart';
 
 import '../../features/auth/models/user_model.dart';
 import '../constants/color.dart';
 
-//Widget du header - utilisé dans toutes les pages de l'application
-class MainHeader extends StatelessWidget {
-  final String title;
-
-  const MainHeader({super.key, required this.title});
+//Widget du nav - utilisé dans toutes les pages de l'application
+class NavbarWidget extends StatefulWidget {
+  const NavbarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +61,5 @@ class MainHeader extends StatelessWidget {
       },
     );
   }
-
-  Future<User?> _fetchUser() async {
-    final userId = await getUserId();
-    if (userId != null) {
-      final userService = UserService();
-      return userService.getUser(userId);
-    }
-    return null;
-  }
 }
+*/
