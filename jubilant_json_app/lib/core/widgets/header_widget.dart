@@ -28,32 +28,34 @@ class MainHeader extends StatelessWidget {
               spacing: 12,
               children: [
                 SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    const SizedBox(width: 10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        'assets/images/logoCerfrance.png',
-                        width: 50,
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/littleLogoCerfrance.png',
+                        height: 30,
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      // "${user.firstName} ${user.lastName}",
-                      "John Doe",
-                      style: TextStyle(
-                        color: ColorConstant.white,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Poppins",
-                        fontSize: 20,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          "John Doe",
+                          style: TextStyle(
+                            color: ColorConstant.darkGrey,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Poppins",
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                )
               ],
             ),
           );

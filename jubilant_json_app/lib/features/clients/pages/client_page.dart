@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:jubilant_json_app/core/widgets/header_widget.dart';
+import 'package:jubilant_json_app/core/widgets/navbar_widget.dart';
 import 'package:jubilant_json_app/features/clients/models/client_model.dart';
 import 'package:jubilant_json_app/features/clients/services/client_service.dart';
 import 'package:flutter/material.dart';
@@ -58,33 +59,47 @@ class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(280.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MainHeader(
+              title: "Clients",
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildLabel("Qui"),
+                  buildSearchField("Rechercher le nom du client", (value) {
+                    setState(() {
+                      nameFilter = value;
+                      filterClients();
+                    });
+                  }),
+                  const SizedBox(height: 5),
+                  buildLabel("Numéro SIRET"),
+                  buildSearchField("Rechercher le numéro SIRET", (value) {
+                    setState(() {
+                      siretFilter = value;
+                      filterClients();
+                    });
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: NavbarWidget(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MainHeader(
-                title: "Clients",
-              ),
-              const SizedBox(height: 30),
-              buildLabel("Qui"),
-              buildSearchField("Rechercher le nom du client", (value) {
-                setState(() {
-                  nameFilter = value;
-                  filterClients();
-                });
-              }),
-              const SizedBox(height: 5),
-              buildLabel("Numéro SIRET"),
-              buildSearchField("Rechercher le numéro SIRET", (value) {
-                setState(() {
-                  siretFilter = value;
-                  filterClients();
-                });
-              }),
-              const SizedBox(height: 20),
-
               // Display the filtered Clients
               Column(
                 children: filteredClients

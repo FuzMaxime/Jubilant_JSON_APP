@@ -15,8 +15,8 @@ class HeaderAuth extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset('assets/images/logoCerfrance.png', width: 75)),
+              child:
+                  Image.asset('assets/images/logoCerfrance.png', height: 40)),
         ),
         Column(
           spacing: 20.0,
