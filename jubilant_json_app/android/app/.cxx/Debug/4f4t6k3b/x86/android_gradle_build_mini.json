@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "C:\\Users\\jgaud\\AppData\\Local\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\jgaud\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\jgaud\\Desktop\\YNOV\\Projects\\Challenge 48h 2025\\Jubilant_JSON_APP\\jubilant_json_app\\android\\app\\.cxx\\Debug\\4f4t6k3b\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\jgaud\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\jgaud\\Desktop\\YNOV\\Projects\\Challenge 48h 2025\\Jubilant_JSON_APP\\jubilant_json_app\\android\\app\\.cxx\\Debug\\4f4t6k3b\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
