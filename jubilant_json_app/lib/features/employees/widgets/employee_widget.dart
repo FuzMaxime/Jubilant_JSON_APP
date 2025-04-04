@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:jubilant_json_app/features/employees/models/employee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:jubilant_json_app/features/employees/pages/CNI_page.dart';
@@ -12,14 +13,7 @@ class EmployeeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CNIPage(employee: employee),
-          ),
-        );
-      },
+      onTap: () => navigateToCNIPage(context, employee),
       child: Card(
         color: ColorConstant.cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -61,6 +55,19 @@ class EmployeeCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> navigateToCNIPage(
+      BuildContext context, Employee employee) async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CNIPage(camera: firstCamera, employee: employee),
       ),
     );
   }

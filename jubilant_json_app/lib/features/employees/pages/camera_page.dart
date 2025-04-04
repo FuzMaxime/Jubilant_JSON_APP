@@ -3,38 +3,30 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:jubilant_json_app/features/employees/models/employee_model.dart';
-import 'package:jubilant_json_app/features/employees/pages/camera_page.dart';
-import 'package:path/path.dart';
 
-class CNIPage extends StatefulWidget {
+class TakePictureScreen extends StatefulWidget {
+  const TakePictureScreen({super.key, required this.camera});
+
   final CameraDescription camera;
-  final Employee employee;
-
-  const CNIPage({super.key, required this.camera, required this.employee});
 
   @override
-  State<CNIPage> createState() => _CNIPageState();
+  TakePictureScreenState createState() => TakePictureScreenState();
 }
 
-class _CNIPageState extends State<CNIPage> {
+class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller = CameraController(widget.camera, ResolutionPreset.medium);
-    _initializeControllerFuture = _controller.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    }).catchError((error) {
-      print("Erreur lors de l'initialisation de la caméra : $error");
-    });
+    _controller = CameraController(
+      widget.camera,
+      ResolutionPreset.medium,
+    );
+
+    _initializeControllerFuture = _controller.initialize();
   }
 
   @override
@@ -45,35 +37,45 @@ class _CNIPageState extends State<CNIPage> {
 
   @override
   Widget build(BuildContext context) {
-    return TakePictureScreen(
-      camera: widget.camera,
+    return Scaffold(
+      appBar: AppBar(title: const Text('Prendre une photo')),
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return CameraPreview(_controller);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          try {
+            await _initializeControllerFuture;
+            final image = await _controller.takePicture();
+
+            if (!context.mounted) return;
+
+            if (image.path != null) {
+              final extractedText = await extractTextFromImage(image.path);
+
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DisplayExtractedInfoScreen(
+                    imagePath: image.path,
+                    extractedText: extractedText,
+                  ),
+                ),
+              );
+            }
+          } catch (e) {
+            print(e);
+          }
+        },
+        child: const Icon(Icons.camera_alt),
+      ),
     );
-  }
-
-  Future<String?> cropImage(String imagePath) async {
-    try {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: imagePath,
-        aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 3),
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Rogner l\'image',
-            toolbarColor: Colors.black,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false,
-          ),
-          IOSUiSettings(
-            title: 'Rogner l\'image',
-          ),
-        ],
-      );
-
-      return croppedFile?.path;
-    } catch (e) {
-      print("Erreur lors du rognage de l'image : $e");
-      return null;
-    }
   }
 
   Future<Map<String, String>> extractTextFromImage(String imagePath) async {
@@ -84,6 +86,7 @@ class _CNIPageState extends State<CNIPage> {
       final recognizedText = await textRecognizer.processImage(inputImage);
       textRecognizer.close();
 
+      // Extract relevant info from the recognized text
       final extractedInfo = <String, String>{};
       for (final block in recognizedText.blocks) {
         for (final line in block.lines) {
@@ -93,19 +96,14 @@ class _CNIPageState extends State<CNIPage> {
             extractedInfo['Nom'] = text.split(':').last.trim();
           if (text.contains('Prénom'))
             extractedInfo['Prénom'] = text.split(':').last.trim();
-          if (text.contains('Date de naissance'))
+          if (text.contains('Né'))
             extractedInfo['Date de naissance'] = text.split(':').last.trim();
-          if (text.contains('Date de fin de validité'))
-            extractedInfo['Date de fin de validité'] =
-                text.split(':').last.trim();
-          if (text.contains('Numéro de la CNI'))
-            extractedInfo['Numéro de la CNI'] = text.split(':').last.trim();
         }
       }
 
       return extractedInfo;
     } catch (e) {
-      print('Erreur lors de la reconnaissance de texte : $e');
+      print('Error during text recognition: $e');
       return {};
     }
   }
@@ -124,7 +122,7 @@ class DisplayExtractedInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Informations extraites')),
+      appBar: AppBar(title: const Text('Extracted Information')),
       body: Column(
         children: [
           Image.file(File(imagePath)),
