@@ -1,5 +1,6 @@
 import 'package:jubilant_json_app/features/clients/models/client_model.dart';
 import 'package:flutter/material.dart';
+import 'package:jubilant_json_app/features/employees/pages/employee_page.dart';
 
 import '../../../core/constants/color.dart';
 
@@ -12,7 +13,12 @@ class ClientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/employees');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EmployeePage(id: client.id),
+          ),
+        );
       },
       child: Card(
         color: ColorConstant.cardBg,

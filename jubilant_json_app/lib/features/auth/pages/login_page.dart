@@ -92,22 +92,7 @@ class _LoginState extends State<LoginPage> {
                               color: Colors.white,
                             ),
                           ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Vous n'avez pas de compte ?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/home');
-                          },
-                          child: Text("S'inscrire",
-                              style: TextStyle(color: ColorConstant.yellow)),
-                        ),
-                      ],
-                    ),
+
                   )
                 ],
               ),

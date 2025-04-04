@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../features/auth/models/user_model.dart';
 import '../constants/color.dart';
+import 'package:jubilant_json_app/features/auth/services/auth_service.dart';
 
 class NavbarWidget extends StatelessWidget {
   const NavbarWidget({super.key});
@@ -25,15 +26,15 @@ class NavbarWidget extends StatelessWidget {
         children: [
           IconButton(
             icon: Icon(Icons.search, color: ColorConstant.orange),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.add_a_photo, color: ColorConstant.darkGrey),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
           ),
           IconButton(
             icon: Icon(Icons.exit_to_app, color: ColorConstant.green),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
           ),
         ],
       ),
