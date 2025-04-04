@@ -1,5 +1,6 @@
 import 'package:jubilant_json_app/features/employees/models/employee_model.dart';
 import 'package:flutter/material.dart';
+import 'package:jubilant_json_app/features/employees/pages/CNI_page.dart';
 
 import '../../../core/constants/color.dart';
 
@@ -11,7 +12,14 @@ class EmployeeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () => _showSlideUpView(context),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CNIPage(employee: employee),
+          ),
+        );
+      },
       child: Card(
         color: ColorConstant.cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
