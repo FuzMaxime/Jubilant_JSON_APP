@@ -20,28 +20,28 @@ class Employee {
   //Transformation en User
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
-      id: json['id'] ?? 0,
-      client_id: json['client_id'] ?? 0,
-      first_name: json['first_name'] ?? '',
-      last_name: json['last_name'] ?? '',
+      id: json['employeId'] ?? 0,
+      client_id: json['clientId'] ?? 0,
+      first_name: json['firstname'] ?? '',
+      last_name: json['lastname'] ?? '',
       birth_date:
-          DateTime.parse(json['birth_date'] ?? DateTime.now().toString()),
+          DateTime.parse(json['birthdate'] ?? DateTime.now().toString()),
       expiry_date_CNI:
-          DateTime.parse(json['expiry_date_CNI'] ?? DateTime.now().toString()),
-      number_CNI: json['number_CNI'] ?? '',
+          DateTime.parse(json['CNIExpireAt'] ?? DateTime.now().toString()),
+      number_CNI: json['CNICode'] ?? '',
     );
   }
 
   //Transformation en Json
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'client_id': client_id,
-      'first_name': first_name,
-      'last_name': last_name,
-      'birth_date': birth_date.toIso8601String(),
-      'expiry_date_CNI': expiry_date_CNI.toIso8601String(),
-      'number_CNI': number_CNI,
+      'employeId': id,
+      'clientId': client_id,
+      'firstname': first_name,
+      'lastname': last_name,
+      'birthdate': birth_date.toIso8601String(),
+      'CNIExpireAt': expiry_date_CNI.toIso8601String(),
+      'CNICode': number_CNI,
     };
   }
 }

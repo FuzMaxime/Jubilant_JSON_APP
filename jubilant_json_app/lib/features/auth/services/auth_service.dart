@@ -2,24 +2,47 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../dio_client.dart';
+import 'package:dio/dio.dart';
 
 final String apiUrl = dotenv.env['API_URL'] ?? "http://localhost:8080/api/v1";
+final String apiKey = dotenv.env['API_KEY'] ?? "x-api-key";
 
 //Login de l'utilisateur
 Future<bool> login(String email, String password) async {
-  final response = await http.post(
-    Uri.parse("$apiUrl/auth"),
-    headers: {"Content-Type": "application/json"},
-    body: jsonEncode({"email": email, "password": password}),
-  );
-
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    await _saveToken(data["token"], data["userId"]);
-    return true;
-  } else {
-    return false;
+  try {
+    /*var response = await DioClient.dio.post(
+      "$apiUrl/login",
+      data: {
+        "email": email,
+        "password": password,
+      },
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey,
+        },
+      ),
+    );*/
+    final apiClient = ApiClient();
+    var response = await apiClient.postRequest("$apiUrl/login",
+      {
+        "email": email,
+        "password": password,
+      });
+    if (response.statusCode == 200) {
+      await apiClient.saveCookies("$apiUrl/login");
+      final data = response.data["data"];
+      /*
+      await DioClient.saveUserUUID(data["user_uuid"]);
+*/
+      print("Connexion réussie !");
+      return true;
+    }
+  } catch (e) {
+    print("Erreur de connexion : $e");
   }
+  return false;
 }
 
 //Demande si l'utilisateur est authentifié
@@ -44,10 +67,9 @@ Future<void> logout() async {
 }
 
 //Sauvegarder le token
-Future<void> _saveToken(String token, int userId) async {
+Future<void> _saveToken(String userId) async {
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setString("auth_token", token);
-  await prefs.setString("user_id", userId.toString());
+  await prefs.setString("user_uuid", userId.toString());
 }
 
 //récupérer le token

@@ -13,8 +13,8 @@ class Client {
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
       id: json['id'] ?? 0,
-      siret: json['siret'] ?? '',
-      name: json['name'] ?? '',
+      siret: json['siret_number'] ?? '',
+      name: json['Name'] ?? '',
     );
   }
 
@@ -22,8 +22,8 @@ class Client {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'siret': siret,
-      'name': name,
+      'siret_number': siret,
+      'Name': name,
     };
   }
 }

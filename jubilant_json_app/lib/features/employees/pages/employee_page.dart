@@ -9,7 +9,8 @@ import 'package:jubilant_json_app/features/employees/widgets/employee_widget.dar
 import '../../../core/constants/color.dart';
 
 class EmployeePage extends StatefulWidget {
-  const EmployeePage({super.key});
+  final int id;
+  const EmployeePage({super.key, required this.id});
 
   @override
   State<EmployeePage> createState() => _EmployeePageState();
@@ -24,13 +25,13 @@ class _EmployeePageState extends State<EmployeePage> {
   @override
   void initState() {
     super.initState();
-    loadEmployees();
+    loadEmployees(this.widget.id);
   }
 
   // Asynchronous method to load Employees from an external service
-  Future<void> loadEmployees() async {
+  Future<void> loadEmployees(int id) async {
     try {
-      List<Employee> employeesData = await getAllEmployees();
+      List<Employee> employeesData = await getAllEmployees(id);
       setState(() {
         allEmployees = employeesData;
 
