@@ -9,8 +9,7 @@ android {
     namespace = "com.example.jubilant_json_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
-    compileSdkVersion 33
+    compileSdk = 35
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
