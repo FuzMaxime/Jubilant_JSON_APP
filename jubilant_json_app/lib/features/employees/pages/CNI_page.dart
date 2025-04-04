@@ -81,7 +81,7 @@ class _CNIPageState extends State<CNIPage> {
   Future<File?> cropImage(String imagePath) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
-      aspectRatioPresets: [CropAspectRatioPreset.ratio4x3],
+      aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 3),
       uiSettings: [
         AndroidUiSettings(toolbarTitle: 'Rogner la CNI'),
       ],

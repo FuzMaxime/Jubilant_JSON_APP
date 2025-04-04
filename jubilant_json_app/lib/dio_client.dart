@@ -11,77 +11,6 @@ import 'dart:io';
 final String apiUrl = dotenv.env['API_URL'] ?? "http://localhost:8080/api/v1";
 final String apiKey = dotenv.env['API_KEY'] ?? "x-api-key";
 
-/*
-class DioClient {
-  static final Dio _dio = Dio();
-  static final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-  static late final PersistCookieJar cookieJar;
-
-  static Future<void> init() async {
-    final dir = await getApplicationDocumentsDirectory();
-    cookieJar = PersistCookieJar(storage: FileStorage("${dir.path}/cookies"));
-    _dio.interceptors.add(CookieManager(cookieJar));
-  }
-
-  DioClient() {
-    _dio.interceptors.add(CookieManager(cookieJar));
-  }
-
-  static Dio get dio {
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        return handler.next(options);
-      },
-      onResponse: (Response response, handler) {
-        return handler.next(response);
-      },
-      onError: (DioError error, handler) async {
-        if (error.response?.statusCode == 401 && error.response?.data is Map<String, dynamic>) {
-          print("Access Token expiré, tentative de rafraîchissement");
-          var errorData = error.response?.data;
-          print(errorData);
-          if (errorData is Map<String, dynamic>) {
-            String errorMessage = errorData['error'] ?? '';
-            if (errorMessage.contains('invalid token')) {
-              String? refreshToken = await secureStorage.read(
-                  key: "refresh_token");
-              print("refresh_token");
-              print(refreshToken);
-              if (refreshToken != null) {
-                try {
-                  final refreshResponse = await _dio.post(
-                      "$apiUrl/tokens/renew"
-                  );
-
-                  if (refreshResponse.statusCode == 200) {
-                    print("Refresh réussi, nouveau cookie d'accès");
-
-                    final cookieHeader = refreshResponse.headers['set-cookie'];
-                    final options = error.response!.requestOptions;
-                    final newRequest = await _dio.fetch(options);
-                    return handler.resolve(newRequest);
-                  }
-                } catch (e) {
-                  print("Erreur lors du rafraîchissement du cookie : $e");
-                }
-              }
-      }
-
-          }
-          return handler.next(error);
-        }}));
-
-    return _dio;
-  }
-
-  static Future<void> saveUserUUID(String userUUID) async {
-    await secureStorage.write(key: "user_uuid", value: userUUID);
-  }
-
-  static Future<String?> getUserUUID() async {
-    return await secureStorage.read(key: "user_uuid");
-  }
-}*/
 class ApiClient {
   late Dio _dio;  // Utilisation de "late" pour indiquer que la variable sera initialisée plus tard
   late CookieManager _cookieManager;  // Utilisation de "late" pour indiquer que la variable sera initialisée plus tard
@@ -122,11 +51,15 @@ class ApiClient {
   Future<Response> postRequest(String url, Map<String, dynamic> data) async {
     // Effectuer une requête POST
     try {
+      print("aaaaaaa");
+      print(url);
       Response response = await _dio.post(url, data: data,options: Options(
           headers: {
             "Content-Type": "application/json",
             "x-api-key": apiKey,
           }));
+      print("bbbbbbbbbbbbbb");
+      print(response);
       List<Cookie> cookies = await _cookieManager.cookieJar.loadForRequest(Uri.parse(url));
       String cookiesString = cookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
       print("Cookies sauvegardés : $cookiesString");
